@@ -2,13 +2,286 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SpringCare AI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpringCare AI | Healthcare Assistant</title>
+<style>
+:root {
+  --navy:#102746;
+  --blue:#2878ef;
+  --light:#f3f7fc;
+  --muted:#718096;
+  --white:#fff;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:var(--light);
+  color:var(--navy);
+}
+header {
+  background:linear-gradient(120deg,#102746,#1762bd);
+  color:white;
+  padding:19px 6%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.brand {display:flex;align-items:center;gap:12px}
+.logo {
+  width:43px;height:43px;border-radius:14px;
+  background:white;color:#1762bd;
+  display:grid;place-items:center;font-size:24px;font-weight:bold;
+}
+.brand h2 {margin:0;font-size:20px}
+.brand small {opacity:.8}
+.status {font-size:12px;color:#d7fbe5}
+main {
+  max-width:1100px;
+  margin:35px auto;
+  padding:0 18px;
+}
+.hero {text-align:center;margin-bottom:28px}
+.tag {
+  display:inline-block;background:#e3efff;color:#1762bd;
+  padding:8px 14px;border-radius:30px;font-size:12px;
+  font-weight:700;
+}
+.hero h1 {font-size:clamp(27px,5vw,42px);margin:17px 0 10px}
+.hero p {color:var(--muted);line-height:1.6;margin:0 auto;max-width:600px}
+.layout {
+  display:grid;grid-template-columns:280px 1fr;
+  gap:22px;align-items:stretch;
+}
+.sidebar,.chat {
+  background:white;border:1px solid #e7edf5;
+  border-radius:20px;box-shadow:0 12px 35px #18365b0c;
+}
+.sidebar {padding:23px}
+.sidebar h3 {margin-top:0}
+.sidebar p {font-size:13px;line-height:1.7;color:var(--muted)}
+.quick {
+  display:block;width:100%;text-align:left;
+  background:#f4f8fe;border:1px solid #e4edf9;
+  border-radius:12px;padding:13px;margin:10px 0;
+  color:var(--navy);font-size:13px;cursor:pointer;
+}
+.quick:hover {background:#e8f1ff;border-color:#9dc3fa}
+.note {
+  margin-top:22px;padding:13px;background:#fff8e8;
+  color:#856321;border-radius:12px;font-size:12px;line-height:1.6;
+}
+.chat {display:flex;flex-direction:column;min-height:570px;overflow:hidden}
+.chathead {
+  padding:18px 20px;border-bottom:1px solid #edf1f6;
+  display:flex;align-items:center;gap:12px;
+}
+.avatar {
+  width:40px;height:40px;background:#e7f1ff;
+  color:#1762bd;border-radius:13px;
+  display:grid;place-items:center;font-size:21px;
+}
+.chathead h3 {margin:0;font-size:15px}
+.chathead small {color:#16a36a}
+.messages {
+  padding:22px;flex:1;overflow-y:auto;
+  display:flex;flex-direction:column;gap:15px;
+  min-height:350px;max-height:440px;
+}
+.msg {
+  padding:13px 16px;border-radius:15px;
+  max-width:85%;font-size:14px;line-height:1.65;
+  white-space:pre-wrap;
+}
+.bot {background:#f0f5fc;align-self:flex-start}
+.user {background:#2878ef;color:white;align-self:flex-end}
+.typing {color:#718096;font-size:13px}
+.inputarea {
+  padding:15px;border-top:1px solid #edf1f6;
+  display:flex;gap:10px;
+}
+input {
+  min-width:0;flex:1;padding:14px;
+  border:1px solid #dce5f0;border-radius:12px;
+  outline:none;font-size:14px;
+}
+input:focus {border-color:#2878ef}
+.send {
+  border:0;background:#2878ef;color:white;
+  padding:0 20px;border-radius:12px;
+  font-weight:bold;cursor:pointer;
+}
+.send:disabled {opacity:.5}
+.disclaimer {
+  text-align:center;color:#8492a6;
+  font-size:11px;padding:0 15px 15px;
+}
+footer {text-align:center;padding:25px;color:#8290a3;font-size:12px}
+@media(max-width:750px) {
+  main {margin:24px auto}
+  .layout {grid-template-columns:1fr}
+  .sidebar {order:2}
+  .chat {order:1;min-height:550px}
+  .messages {max-height:390px}
+  header {padding:15px 18px}
+}
+</style>
 </head>
 <body>
-  <h1>SpringCare AI</h1>
-  <p>Your intelligent healthcare support assistant.</p>
-  <p>Our chatbot experience is coming soon.</p>
+
+<header>
+  <div class="brand">
+    <div class="logo">✚</div>
+    <div>
+      <h2>SpringCare AI</h2>
+      <small>Healthcare Support Assistant</small>
+    </div>
+  </div>
+  <div class="status">● Online Demo</div>
+</header>
+
+<main>
+  <section class="hero">
+    <span class="tag">INTELLIGENT HEALTHCARE EXPERIENCE</span>
+    <h1>Care begins with a conversation.</h1>
+    <p>Get assistance with general healthcare service enquiries, departments and appointment requests through our AI-powered support assistant.</p>
+  </section>
+
+  <section class="layout">
+    <aside class="sidebar">
+      <h3>How can we help?</h3>
+      <p>Choose a topic to start a conversation with SpringCare AI.</p>
+
+      <button class="quick" onclick="quick('What healthcare services does SpringCare offer?')">✚ Healthcare services</button>
+      <button class="quick" onclick="quick('What departments are available?')">▦ Departments</button>
+      <button class="quick" onclick="quick('How can I request an appointment?')">▣ Appointment requests</button>
+      <button class="quick" onclick="quick('I would like to speak with a human support representative.')">♧ Human support</button>
+
+      <div class="note">
+        <strong>Healthcare notice</strong><br>
+        This demonstration assistant provides general service information, not medical diagnosis or treatment. For emergencies, contact local emergency services or visit the nearest emergency department.
+      </div>
+    </aside>
+
+    <section class="chat">
+      <div class="chathead">
+        <div class="avatar">✚</div>
+        <div>
+          <h3>SpringCare Virtual Assistant</h3>
+          <small>Here to help you</small>
+        </div>
+      </div>
+
+      <div class="messages" id="messages">
+        <div class="msg bot">Hello! 👋 Welcome to SpringCare.
+
+I'm your virtual healthcare support assistant. I can help with general service enquiries, departments and appointment request information.
+
+How may I assist you today?</div>
+      </div>
+
+      <form class="inputarea" id="chatForm">
+        <input id="userInput" type="text" placeholder="Type your message here..." autocomplete="off" required>
+        <button class="send" id="sendButton" type="submit">Send ➤</button>
+      </form>
+      <div class="disclaimer">Powered by SpringCare AI · Demonstration environment</div>
+    </section>
+  </section>
+</main>
+
+<footer>© 2026 SpringCare AI · Healthcare Customer Support Demo</footer>
+
+<script>
+const API_URL = "https://springcare-ai.nazeeraliyu15.workers.dev/api/chat";
+
+const messagesBox = document.getElementById("messages");
+const input = document.getElementById("userInput");
+const form = document.getElementById("chatForm");
+const sendButton = document.getElementById("sendButton");
+
+let conversation = [];
+
+function addMessage(text, type) {
+  const bubble = document.createElement("div");
+  bubble.className = "msg " + type;
+  bubble.textContent = text;
+  messagesBox.appendChild(bubble);
+  messagesBox.scrollTop = messagesBox.scrollHeight;
+  return bubble;
+}
+
+function quick(text) {
+  input.value = text;
+  form.requestSubmit();
+}
+
+function getReply(data) {
+  if (typeof data === "string") return data;
+
+  if (data.reply) return data.reply;
+  if (data.response) return data.response;
+  if (data.message) return data.message;
+  if (data.text) return data.text;
+
+  if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
+    return data.candidates[0].content.parts[0].text;
+  }
+
+  return "";
+}
+
+form.addEventListener("submit", async function(event) {
+  event.preventDefault();
+
+  const text = input.value.trim();
+  if (!text || sendButton.disabled) return;
+
+  addMessage(text, "user");
+  conversation.push({role:"user", content:text});
+
+  input.value = "";
+  sendButton.disabled = true;
+  sendButton.textContent = "...";
+
+  const typing = addMessage("SpringCare AI is typing...", "bot typing");
+
+  try {
+    const response = await fetch(API_URL, {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        message:text,
+        messages:conversation
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "The server could not process your request.");
+    }
+
+    const reply = getReply(data);
+    if (!reply) throw new Error("The server returned an unexpected response.");
+
+    typing.remove();
+    addMessage(reply, "bot");
+    conversation.push({role:"assistant", content:reply});
+
+  } catch(error) {
+    typing.remove();
+    addMessage(
+      "I'm sorry, I couldn't connect to the AI service right now. Please try again. If this continues, contact the support team. (" + error.message + ")",
+      "bot"
+    );
+  } finally {
+    sendButton.disabled = false;
+    sendButton.textContent = "Send ➤";
+    input.focus();
+  }
+});
+</script>
+
 </body>
 </html>
