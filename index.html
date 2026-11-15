@@ -1,482 +1,192 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#081B35">
-<title>SpringCare AI — Intelligent Healthcare</title>
+<title>Springcare AI | Virtual Receptionist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root {
-  --navy:#081b35;
-  --navy2:#102d50;
-  --blue:#3478f6;
-  --cyan:#65d5ee;
-  --bg:#f4f7fc;
-  --white:#fff;
-  --muted:#8290a5;
-  --line:#e9eef5;
-  --green:#18b77a;
-}
-* {box-sizing:border-box}
-body {
-  margin:0;
-  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  background:var(--bg);
-  color:var(--navy);
-}
-button,input {font:inherit}
-button {cursor:pointer}
-.app {
-  min-height:100vh;
-  display:grid;
-  grid-template-columns:250px minmax(0,1fr);
-}
-.sidebar {
-  background:var(--navy);
-  color:white;
-  padding:27px 18px;
-  display:flex;
-  flex-direction:column;
-}
-.brand {
-  display:flex;
-  align-items:center;
-  gap:11px;
-  padding:0 7px 30px;
-}
-.brand-icon {
-  width:42px;height:42px;
-  border-radius:14px;
-  background:linear-gradient(135deg,#55c9f1,#3979f8);
-  display:grid;place-items:center;
-  font-size:24px;color:white;
-  box-shadow:0 8px 24px #3478f655;
-}
-.brand-name {font-size:18px;font-weight:800;letter-spacing:-.6px}
-.brand-sub {font-size:10px;color:#9fb4ce;margin-top:3px}
-.nav-label {
-  color:#7991ae;
-  font-size:10px;
-  font-weight:800;
-  letter-spacing:1.5px;
-  padding:14px 10px 9px;
-}
-.nav-button {
-  display:flex;align-items:center;gap:12px;
-  border:0;background:transparent;color:#b7c7dc;
-  padding:12px 11px;border-radius:11px;
-  width:100%;text-align:left;font-size:13px;
-  margin-bottom:4px;
-}
-.nav-button.active,.nav-button:hover {
-  background:#ffffff13;color:white;
-}
-.nav-icon {font-size:17px;width:20px;text-align:center}
-.sidebar-bottom {margin-top:auto}
-.demo-tag {
-  border:1px solid #ffffff22;
-  background:#ffffff09;
-  padding:13px;border-radius:13px;
-  color:#b7c7dc;font-size:11px;line-height:1.7;
-}
-.demo-tag strong {color:white}
-.main {min-width:0;display:flex;flex-direction:column}
-.topbar {
-  height:72px;background:white;
-  border-bottom:1px solid var(--line);
-  padding:0 34px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.top-title {font-size:14px;font-weight:750}
-.top-sub {font-size:11px;color:var(--muted);margin-top:4px}
-.online {
-  display:flex;align-items:center;gap:7px;
-  color:#159a69;font-size:11px;font-weight:700;
-}
-.dot {
-  width:7px;height:7px;border-radius:50%;
-  background:#20c58b;box-shadow:0 0 0 4px #20c58b20;
-}
-.content {
-  width:100%;max-width:1050px;
-  margin:0 auto;padding:30px 34px;
-  flex:1;display:flex;flex-direction:column;
-}
-.welcome {
-  background:linear-gradient(115deg,#0c2341,#164b82 65%,#2476bb);
-  border-radius:22px;
-  color:white;padding:25px 28px;
-  display:flex;align-items:center;
-  justify-content:space-between;gap:15px;
-  position:relative;overflow:hidden;
-  margin-bottom:22px;
-}
-.welcome:after {
-  content:"✚";
-  position:absolute;right:55px;top:-48px;
-  font-size:190px;color:#ffffff09;
-  pointer-events:none;
-}
-.welcome-copy {position:relative;z-index:1}
-.eyebrow {
-  color:#8ce2f5;font-size:10px;
-  font-weight:800;letter-spacing:1.7px;
-}
-.welcome h1 {
-  font-size:clamp(22px,3vw,31px);
-  letter-spacing:-1px;margin:12px 0 7px;
-}
-.welcome p {
-  color:#c5d8ec;font-size:12px;
-  line-height:1.6;margin:0;max-width:480px;
-}
-.welcome-art {
-  position:relative;z-index:1;
-  width:75px;height:75px;flex-shrink:0;
-  border-radius:24px;
-  background:#ffffff17;border:1px solid #ffffff30;
-  display:grid;place-items:center;font-size:38px;
-  backdrop-filter:blur(8px);
-}
-.section-heading {
-  display:flex;justify-content:space-between;
-  align-items:center;margin:0 0 12px;
-}
-.section-heading strong {font-size:13px}
-.section-heading span {font-size:10px;color:var(--muted)}
-.actions {
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:10px;margin-bottom:19px;
-}
-.action {
-  background:white;border:1px solid var(--line);
-  border-radius:15px;padding:14px 12px;
-  text-align:left;min-height:94px;
-  transition:.2s;
-}
-.action:hover {
-  transform:translateY(-3px);
-  border-color:#a9c8fa;
-  box-shadow:0 8px 20px #1b4b8510;
-}
-.action-icon {
-  display:grid;place-items:center;
-  width:32px;height:32px;border-radius:10px;
-  background:#edf4ff;color:#3478f6;font-size:17px;
-  margin-bottom:9px;
-}
-.action strong {display:block;font-size:11px}
-.action small {display:block;color:var(--muted);font-size:9px;margin-top:4px}
-.chat-card {
-  background:white;border:1px solid var(--line);
-  border-radius:18px;overflow:hidden;
-  display:flex;flex-direction:column;
-  min-height:350px;flex:1;
-}
-.chat-head {
-  padding:14px 18px;border-bottom:1px solid var(--line);
-  display:flex;align-items:center;justify-content:space-between;
-}
-.assistant-info {display:flex;align-items:center;gap:10px}
-.assistant-avatar {
-  width:37px;height:37px;border-radius:12px;
-  background:linear-gradient(135deg,#e4f2ff,#d7e8ff);
-  display:grid;place-items:center;color:#3478f6;font-size:20px;
-}
-.assistant-name {font-size:12px;font-weight:800}
-.assistant-status {font-size:10px;color:#19a575;margin-top:4px}
-.chat-label {
-  background:#f1f5fb;color:#64758b;
-  border-radius:20px;padding:7px 10px;font-size:9px;
-}
-.messages {
-  flex:1;min-height:190px;max-height:340px;
-  overflow-y:auto;padding:19px;
-  display:flex;flex-direction:column;gap:12px;
-}
-.message {
-  max-width:84%;padding:12px 14px;
-  font-size:12px;line-height:1.7;
-  border-radius:15px;white-space:pre-wrap;
-  overflow-wrap:anywhere;
-}
-.message.bot {
-  background:#f1f5fb;color:#263b55;
-  align-self:flex-start;border-bottom-left-radius:4px;
-}
-.message.user {
-  background:#3478f6;color:white;
-  align-self:flex-end;border-bottom-right-radius:4px;
-}
-.message.error {background:#fff0ef;color:#9b3630}
-.typing-dots {display:inline-flex;gap:4px;padding:4px}
-.typing-dots i {
-  width:6px;height:6px;border-radius:50%;
-  background:#8a9cb1;animation:bounce .8s infinite alternate;
-}
-.typing-dots i:nth-child(2) {animation-delay:.2s}
-.typing-dots i:nth-child(3) {animation-delay:.4s}
-@keyframes bounce {to {transform:translateY(-5px);opacity:.4}}
-.composer {
-  padding:13px 16px;
-  border-top:1px solid var(--line);
-  display:flex;gap:9px;align-items:center;
-}
-.composer input {
-  flex:1;min-width:0;border:1px solid #e5ebf3;
-  background:#f8fafd;border-radius:12px;
-  padding:13px 14px;outline:none;
-  font-size:12px;color:var(--navy);
-}
-.composer input:focus {border-color:#8bb6fa;background:white}
-.send {
-  width:43px;height:43px;border:0;
-  border-radius:12px;background:#3478f6;
-  color:white;font-size:18px;
-  box-shadow:0 5px 13px #3478f633;
-}
-.send:disabled {opacity:.5}
-.footnote {
-  text-align:center;color:#9aa7b8;
-  font-size:9px;padding:0 12px 12px;
-}
-.mobile-brand {display:none}
-.mobile-nav {display:none}
-@media(max-width:760px) {
-  .app {display:block;padding-bottom:63px}
-  .sidebar {display:none}
-  .topbar {height:58px;padding:0 17px}
-  .top-title {font-size:12px}
-  .top-sub {font-size:9px}
-  .content {padding:14px 12px 16px}
-  .welcome {padding:19px 17px;border-radius:17px;margin-bottom:15px}
-  .welcome h1 {font-size:22px}
-  .welcome p {font-size:10px;max-width:260px}
-  .welcome-art {width:51px;height:51px;border-radius:17px;font-size:26px}
-  .welcome:after {right:10px;font-size:130px}
-  .actions {grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px}
-  .action {min-height:77px;padding:10px;border-radius:12px}
-  .action-icon {width:27px;height:27px;margin-bottom:6px;font-size:14px}
-  .action strong {font-size:10px}
-  .action small {font-size:8px}
-  .section-heading {margin-bottom:9px}
-  .section-heading strong {font-size:11px}
-  .chat-card {min-height:360px;border-radius:15px}
-  .chat-head {padding:11px 12px}
-  .assistant-avatar {width:32px;height:32px;font-size:17px}
-  .assistant-name {font-size:11px}
-  .assistant-status {font-size:9px}
-  .chat-label {font-size:8px;padding:6px 8px}
-  .messages {padding:13px;min-height:205px;max-height:300px}
-  .message {font-size:11px;padding:10px 12px;max-width:90%}
-  .composer {padding:10px;gap:7px}
-  .composer input {font-size:11px;padding:12px}
-  .send {width:40px;height:40px}
-  .mobile-nav {
-    display:flex;position:fixed;bottom:0;left:0;right:0;
-    height:60px;background:white;
-    border-top:1px solid var(--line);
-    justify-content:space-around;align-items:center;
-    z-index:10;
-  }
-  .mobile-nav button {
-    border:0;background:none;color:#8090a4;
-    display:flex;flex-direction:column;align-items:center;
-    gap:3px;font-size:9px;
-  }
-  .mobile-nav button b {font-size:17px;font-weight:400}
-  .mobile-nav button.active {color:#3478f6}
-}
+:root{--blue:#246BFD;--navy:#14264b;--purple:#7056e8;--muted:#78849b;--bg:#f3f6fc}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:var(--navy);min-height:100vh;display:grid;place-items:center;padding:20px}
+.app{width:min(100%,440px);height:min(850px,94vh);min-height:620px;background:white;border-radius:25px;overflow:hidden;box-shadow:0 22px 70px #1c37651c;display:flex;flex-direction:column;border:1px solid #e9eef7}
+.top{background:linear-gradient(120deg,#1768f8,#6852dc);color:white;padding:22px 20px 27px;position:relative}
+.top:after{content:"";position:absolute;bottom:-12px;left:-5%;width:110%;height:25px;background:white;border-radius:50% 50% 0 0}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:46px;height:46px;border-radius:15px;background:#ffffff25;border:1px solid #ffffff55;display:grid;place-items:center;font-size:25px}
+.brand h1{font-size:17px;margin:0 0 5px;font-weight:800}
+.brand p{font-size:11px;margin:0;color:#e4eaff}
+.online{display:inline-flex;align-items:center;gap:6px;font-size:11px;margin-top:7px;color:#e8f1ff}
+.dot{width:7px;height:7px;background:#65f2ae;border-radius:50%}
+.topright{margin-left:auto;display:flex;gap:12px;font-size:21px}
+.body{flex:1;overflow:auto;padding:24px 17px 12px;background:#fff}
+.welcome{margin-bottom:19px}
+.welcome h2{font-size:21px;margin:0 0 7px;letter-spacing:-.6px}
+.welcome p{font-size:12px;color:var(--muted);line-height:1.6;margin:0}
+.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-bottom:20px}
+.quick button{background:#f7f9ff;border:1px solid #e8edfa;border-radius:13px;padding:12px 10px;text-align:left;color:var(--navy);font:600 11px Inter;cursor:pointer;transition:.2s}
+.quick button:hover{border-color:#9bb9ff;background:#f0f5ff}
+.quick span{display:block;font-size:19px;margin-bottom:7px}
+.chat{display:flex;flex-direction:column;gap:12px}
+.msg{max-width:87%;font-size:12px;line-height:1.65;padding:12px 14px;border-radius:15px}
+.bot{align-self:flex-start;background:#f1f4fa;color:#34415c;border-bottom-left-radius:4px}
+.user{align-self:flex-end;background:linear-gradient(120deg,#2672ff,#4261ed);color:white;border-bottom-right-radius:4px}
+.stamp{font-size:9px;color:#98a2b4;margin-top:4px}
+.typing{display:none;color:#8491a8;font-size:11px;padding:8px}
+.appointment{display:none;border:1px solid #e6ebf5;border-radius:17px;padding:14px;margin:5px 0 12px;background:#fff;box-shadow:0 8px 25px #203b680c}
+.appointment h3{font-size:14px;margin:0 0 5px}
+.sub{font-size:10px;color:var(--muted);margin:0 0 13px}
+.field{margin:12px 0}
+.field label{font-size:10px;font-weight:700;display:block;margin-bottom:7px;color:#52617c}
+.field input,.field select{width:100%;padding:11px;border:1px solid #e1e7f1;border-radius:10px;font:12px Inter;color:var(--navy);background:white;outline:none}
+.field input:focus,.field select:focus{border-color:#6e9bff}
+.month{display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:10px}
+.month button{border:0;background:#f1f5ff;border-radius:8px;padding:6px 10px;color:#386ff0;cursor:pointer}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.day{border:1px solid #edf0f6;background:white;border-radius:9px;padding:8px 1px;text-align:center;font:11px Inter;cursor:pointer;color:#42516b}
+.day small{display:block;font-size:8px;color:#8995a9;margin-bottom:4px}
+.day.selected{background:#286dff;color:white;border-color:#286dff}
+.day.selected small{color:#e6efff}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.slot{border:1px solid #e4eaf4;border-radius:9px;padding:9px 2px;text-align:center;font:10px Inter;background:#fff;cursor:pointer}
+.slot.selected{background:#edf3ff;border-color:#3676ff;color:#2164ed;font-weight:700}
+.primary{width:100%;border:0;border-radius:11px;background:linear-gradient(110deg,#236dff,#6554e8);color:white;padding:13px;font:700 12px Inter;cursor:pointer;margin-top:8px;box-shadow:0 7px 16px #386cf32c}
+.primary:disabled{opacity:.4;cursor:not-allowed}
+.notice{font-size:9px;color:#8490a4;line-height:1.5;margin-top:9px}
+.footer{padding:12px 14px 15px;border-top:1px solid #edf0f5;background:#fff}
+.inputrow{display:flex;align-items:center;gap:8px;border:1px solid #e5eaf3;background:#f9faff;border-radius:15px;padding:6px 7px 6px 13px}
+.inputrow input{flex:1;min-width:0;border:0;outline:0;background:transparent;font:12px Inter;padding:9px 0;color:var(--navy)}
+.send{width:39px;height:39px;border:0;border-radius:13px;background:linear-gradient(130deg,#2475ff,#6652e6);color:white;font-size:18px;cursor:pointer}
+.footnote{text-align:center;color:#a0a9b8;font-size:9px;margin-top:9px}
+.hidden{display:none!important}
+@media(max-width:480px){body{padding:0;background:white}.app{height:100dvh;min-height:580px;width:100%;border-radius:0;border:0;box-shadow:none}.top{padding-top:20px}.body{padding-left:15px;padding-right:15px}}
 </style>
 </head>
 <body>
-<div class="app">
-
-<aside class="sidebar">
-  <div class="brand">
-    <div class="brand-icon">✚</div>
-    <div>
-      <div class="brand-name">SpringCare AI</div>
-      <div class="brand-sub">INTELLIGENT HEALTHCARE</div>
-    </div>
+<main class="app">
+<header class="top">
+ <div class="brand">
+  <div class="logo">✚</div>
+  <div><h1>Springcare AI</h1><p>Your digital healthcare assistant</p><div class="online"><i class="dot"></i> Here to help you</div></div>
+  <div class="topright">⋯</div>
+ </div>
+</header>
+<section class="body" id="body">
+ <div class="welcome">
+  <h2>Hi there! 👋</h2>
+  <p>Welcome to Springcare Medical Services. I'm your virtual assistant. How can I make your healthcare experience easier today?</p>
+ </div>
+ <div class="quick" id="quick">
+  <button onclick="quickAsk('Tell me about your medical services')"><span>✚</span>Our services</button>
+  <button onclick="openAppointment()"><span>▦</span>Request appointment</button>
+  <button onclick="quickAsk('Where is Springcare located and how can I contact the clinic?')"><span>⌖</span>Location & contact</button>
+  <button onclick="quickAsk('Tell me about your health screening packages')"><span>♡</span>Health packages</button>
+ </div>
+ <div class="chat" id="chat">
+  <div class="msg bot">Hello! 😊 I'm here to help with services, clinic information and appointment requests. What would you like to know?</div>
+ </div>
+ <div class="typing" id="typing">Springcare AI is thinking…</div>
+ <section class="appointment" id="appointment">
+  <h3>Request an appointment</h3>
+  <p class="sub">Choose your preferred date and time.</p>
+  <div class="field"><label>HEALTHCARE SERVICE</label>
+   <select id="service">
+    <option value="">Select a service</option>
+    <option>General consultation</option><option>Maternity care</option><option>Child and family healthcare</option><option>Vaccination / Immunisation</option><option>Laboratory and diagnostics</option><option>Health screening</option><option>Sexual and reproductive health</option><option>Other enquiry</option>
+   </select>
   </div>
-
-  <div class="nav-label">WORKSPACE</div>
-  <button class="nav-button active"><span class="nav-icon">⌂</span> Overview</button>
-  <button class="nav-button" onclick="quick('Tell me about your healthcare services.')"><span class="nav-icon">✚</span> Our services</button>
-  <button class="nav-button" onclick="quick('What departments are available?')"><span class="nav-icon">▦</span> Departments</button>
-  <button class="nav-button" onclick="quick('How can I request an appointment?')"><span class="nav-icon">▣</span> Appointments</button>
-  <div class="nav-label">ASSISTANCE</div>
-  <button class="nav-button" onclick="quick('I would like to speak to human support.')"><span class="nav-icon">♧</span> Human support</button>
-
-  <div class="sidebar-bottom">
-    <div class="demo-tag">
-      <strong>SpringCare AI Demo</strong><br>
-      Experience the future of healthcare customer support.
-    </div>
-  </div>
-</aside>
-
-<div class="main">
-  <header class="topbar">
-    <div>
-      <div class="top-title">Healthcare Support Centre</div>
-      <div class="top-sub">Your digital healthcare companion</div>
-    </div>
-    <div class="online"><span class="dot"></span> Assistant online</div>
-  </header>
-
-  <main class="content">
-    <section class="welcome">
-      <div class="welcome-copy">
-        <div class="eyebrow">WELCOME TO SPRINGCARE</div>
-        <h1>Care, connected intelligently.</h1>
-        <p>Your healthcare questions deserve helpful answers. Start a conversation with our intelligent virtual assistant.</p>
-      </div>
-      <div class="welcome-art">✚</div>
-    </section>
-
-    <div class="section-heading">
-      <strong>Explore assistance</strong>
-      <span>Choose a service to begin</span>
-    </div>
-
-    <section class="actions">
-      <button class="action" onclick="quick('What healthcare services do you provide?')">
-        <span class="action-icon">✚</span>
-        <strong>Our services</strong>
-        <small>Explore healthcare services</small>
-      </button>
-      <button class="action" onclick="quick('What departments are available?')">
-        <span class="action-icon">▦</span>
-        <strong>Departments</strong>
-        <small>Find the right department</small>
-      </button>
-      <button class="action" onclick="quick('How can I request an appointment?')">
-        <span class="action-icon">▣</span>
-        <strong>Appointments</strong>
-        <small>Request an appointment</small>
-      </button>
-      <button class="action" onclick="quick('I need assistance from a human support representative.')">
-        <span class="action-icon">♧</span>
-        <strong>Human support</strong>
-        <small>Get personal assistance</small>
-      </button>
-    </section>
-
-    <div class="section-heading">
-      <strong>Talk to SpringCare AI</strong>
-      <span>Powered by intelligent AI</span>
-    </div>
-
-    <section class="chat-card">
-      <div class="chat-head">
-        <div class="assistant-info">
-          <div class="assistant-avatar">✚</div>
-          <div>
-            <div class="assistant-name">SpringCare Assistant</div>
-            <div class="assistant-status">● Ready to assist</div>
-          </div>
-        </div>
-        <div class="chat-label">AI ASSISTANT</div>
-      </div>
-
-      <div class="messages" id="messages">
-        <div class="message bot">Hello and welcome to SpringCare! 👋
-
-I'm your virtual healthcare support assistant. I can help you explore services, departments and appointment requests.
-
-What would you like to know today?</div>
-      </div>
-
-      <form class="composer" id="chatForm">
-        <input id="userInput" placeholder="Ask SpringCare anything..." autocomplete="off" required>
-        <button class="send" id="sendButton" type="submit" aria-label="Send message">➤</button>
-      </form>
-      <div class="footnote">AI-generated information · Demo environment · Not a medical diagnosis service</div>
-    </section>
-  </main>
-</div>
-</div>
-
-<nav class="mobile-nav">
-  <button class="active"><b>⌂</b>Home</button>
-  <button onclick="quick('Tell me about your healthcare services.')"><b>✚</b>Services</button>
-  <button onclick="quick('How can I request an appointment?')"><b>▣</b>Appointments</button>
-  <button onclick="quick('I would like to speak with human support.')"><b>♧</b>Support</button>
-</nav>
-
+  <div class="month"><button onclick="changeMonth(-1)">‹</button><span id="monthLabel"></span><button onclick="changeMonth(1)">›</button></div>
+  <div class="days" id="days"></div>
+  <div class="field"><label>AVAILABLE DEMO TIME SLOTS</label><div class="slots" id="slots"></div></div>
+  <div class="field"><label>YOUR NAME</label><input id="patientName" placeholder="Enter your full name"></div>
+  <div class="field"><label>PHONE NUMBER</label><input id="patientPhone" type="tel" placeholder="e.g. 08012345678"></div>
+  <button class="primary" onclick="submitAppointment()">Continue with demo request</button>
+  <p class="notice">Demo only: dates and times are sample options, not confirmed clinic availability. No patient information is sent to Springcare.</p>
+ </section>
+</section>
+<footer class="footer">
+ <div class="inputrow">
+  <input id="message" placeholder="Enter your message..." autocomplete="off">
+  <button class="send" onclick="sendMessage()" aria-label="Send message">➤</button>
+ </div>
+ <div class="footnote">Springcare AI · Healthcare information assistant</div>
+</footer>
+</main>
 <script>
-const API_URL = "https://springcare-ai.nazeeraliyu15.workers.dev/api/chat";
-const box = document.getElementById("messages");
-const input = document.getElementById("userInput");
-const form = document.getElementById("chatForm");
-const send = document.getElementById("sendButton");
-let history = [];
-
-function addMessage(text, type) {
-  const item = document.createElement("div");
-  item.className = "message " + type;
-  item.textContent = text;
-  box.appendChild(item);
-  box.scrollTop = box.scrollHeight;
-  return item;
+const API="https://springcare-ai.nazeeraliyu15.workers.dev/api/chat";
+const chat=document.getElementById("chat");
+const input=document.getElementById("message");
+const typing=document.getElementById("typing");
+const history=[];
+function addMessage(text,who="bot"){
+ const el=document.createElement("div");
+ el.className="msg "+who;el.textContent=text;chat.appendChild(el);
+ document.getElementById("body").scrollTop=document.getElementById("body").scrollHeight;
 }
-
-function quick(text) {
-  input.value = text;
-  form.requestSubmit();
+function quickAsk(text){input.value=text;sendMessage()}
+async function sendMessage(){
+ const text=input.value.trim();if(!text)return;
+ input.value="";addMessage(text,"user");history.push({role:"user",content:text});
+ typing.style.display="block";
+ try{
+  const res=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:text,messages:history})});
+  if(!res.ok)throw new Error("Service unavailable");
+  const data=await res.json();
+  const answer=data.reply||data.response||data.text||data.message||data.candidates?.[0]?.content?.parts?.[0]?.text;
+  if(!answer)throw new Error("No answer received");
+  addMessage(answer);history.push({role:"assistant",content:answer});
+ }catch(e){
+  addMessage("I'm having trouble connecting to the AI service right now. Please try again shortly, or contact Springcare directly on 0813 639 5253.");
+ }finally{typing.style.display="none"}
 }
-
-function extractReply(data) {
-  if (typeof data === "string") return data;
-  return data.reply || data.response || data.text ||
-    data.message || data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+input.addEventListener("keydown",e=>{if(e.key==="Enter")sendMessage()});
+let monthOffset=0,selectedDate=null,selectedTime="";
+function openAppointment(){
+ document.getElementById("appointment").style.display="block";
+ document.getElementById("appointment").scrollIntoView({behavior:"smooth",block:"start"});
+ renderCalendar();
 }
-
-form.addEventListener("submit", async event => {
-  event.preventDefault();
-  const message = input.value.trim();
-  if (!message || send.disabled) return;
-
-  addMessage(message, "user");
-  history.push({role:"user",content:message});
-  input.value = "";
-  send.disabled = true;
-
-  const loading = document.createElement("div");
-  loading.className = "message bot";
-  loading.innerHTML = '<span class="typing-dots"><i></i><i></i><i></i></span>';
-  box.appendChild(loading);
-  box.scrollTop = box.scrollHeight;
-
-  try {
-    const response = await fetch(API_URL, {
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({message:message,messages:history})
-    });
-
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.error || "AI service unavailable.");
-
-    const reply = extractReply(data);
-    if (!reply) throw new Error("Unexpected response from the server.");
-
-    loading.remove();
-    addMessage(reply,"bot");
-    history.push({role:"assistant",content:reply});
-
-  } catch(error) {
-    loading.remove();
-    addMessage("I'm having trouble connecting right now. Please try again shortly. (" + error.message + ")","error");
-  } finally {
-    send.disabled = false;
-    input.focus();
-  }
-});
+function changeMonth(n){monthOffset+=n;selectedDate=null;renderCalendar()}
+function renderCalendar(){
+ const now=new Date();const first=new Date(now.getFullYear(),now.getMonth()+monthOffset,1);
+ document.getElementById("monthLabel").textContent=first.toLocaleDateString("en",{month:"long",year:"numeric"});
+ const days=document.getElementById("days");days.innerHTML="";
+ const offset=first.getDay();
+ for(let i=0;i<offset;i++){const blank=document.createElement("span");days.appendChild(blank)}
+ const count=new Date(first.getFullYear(),first.getMonth()+1,0).getDate();
+ for(let d=1;d<=count;d++){
+  const date=new Date(first.getFullYear(),first.getMonth(),d);
+  const b=document.createElement("button");b.className="day";
+  const past=date.setHours(0,0,0,0)<new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
+  b.disabled=past;b.innerHTML="<small>"+date.toLocaleDateString("en",{weekday:"short"})+"</small>"+d;
+  if(past)b.style.opacity=".3";
+  if(selectedDate===d)b.classList.add("selected");
+  b.onclick=()=>{selectedDate=d;renderCalendar();renderSlots()};
+  days.appendChild(b);
+ }
+ renderSlots();
+}
+function renderSlots(){
+ const slots=document.getElementById("slots");slots.innerHTML="";
+ ["9:00 AM","10:00 AM","11:00 AM","12:00 PM","1:00 PM","2:00 PM","3:00 PM","4:00 PM"].forEach(t=>{
+  const b=document.createElement("button");b.className="slot"+(selectedTime===t?" selected":"");b.textContent=t;
+  b.onclick=()=>{selectedTime=t;renderSlots()};slots.appendChild(b);
+ });
+}
+function submitAppointment(){
+ const service=document.getElementById("service").value;
+ const name=document.getElementById("patientName").value.trim();
+ const phone=document.getElementById("patientPhone").value.trim();
+ if(!service||!selectedDate||!selectedTime||!name||!phone){alert("Please select a service, date and time, and enter your name and phone number.");return}
+ const date=new Date(new Date().getFullYear(),new Date().getMonth()+monthOffset,selectedDate);
+ const readable=date.toLocaleDateString("en",{day:"numeric",month:"long",year:"numeric"});
+ document.getElementById("appointment").style.display="none";
+ addMessage("Appointment request demonstration\nService: "+service+"\nPreferred date: "+readable+"\nPreferred time: "+selectedTime+"\nName: "+name+"\nPhone: "+phone,"user");
+ addMessage("Thank you, "+name+"! Your appointment request has been completed in this demonstration. This is not a real booking and has not been sent to Springcare. In a live deployment, this step will securely forward your request to the clinic's authorised reception team.");
+ document.getElementById("body").scrollTop=document.getElementById("body").scrollHeight;
+}
+renderCalendar();
 </script>
 </body>
-  </html>
-  
+</html>
